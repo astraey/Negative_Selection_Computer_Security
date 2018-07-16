@@ -66,5 +66,13 @@ if __name__ == "__main__":
 
     """
 
+    biggest_size = 0
+
     for proc in proc_list:
         print proc.pid," ", proc.cmd
+        print "Size of String: ", len(proc.cmd)
+        if len(proc.cmd) > biggest_size:
+            biggest_size = len(proc.cmd)
+
+    print "Number of processess running: ", len(proc_list)
+    print "Length of biggest Command String: ", biggest_size
