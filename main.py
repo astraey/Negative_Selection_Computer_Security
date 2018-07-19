@@ -3,6 +3,7 @@
 from subprocess import Popen, PIPE
 from re import split
 from sys import stdout
+import utils as utils
  
 class Proc(object):
     ''' Data structure for a processes . The class properties are
@@ -76,3 +77,6 @@ if __name__ == "__main__":
 
     print "Number of processess running: ", len(proc_list)
     print "Length of biggest Command String: ", biggest_size
+
+    print utils.stringToBinary("Hello World! How have you been")
+
