@@ -78,5 +78,7 @@ if __name__ == "__main__":
     print "Number of processess running: ", len(proc_list)
     print "Length of biggest Command String: ", biggest_size
 
-    print utils.stringToBinary("Hello World! How have you been")
+    #print utils.stringToBinary("Hello World! How have you been")
 
+    returnValue = utils.chunkMatchesSelf(["011", 1], 3, ["00001","01111","01000"])
+    print returnValue
