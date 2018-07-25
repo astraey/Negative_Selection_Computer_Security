@@ -69,16 +69,50 @@ if __name__ == "__main__":
 
     biggest_size = 0
 
+    processListString = []
+
     for proc in proc_list:
+        """
         print proc.pid," ", proc.cmd
         print "Size of String: ", len(proc.cmd)
         if len(proc.cmd) > biggest_size:
             biggest_size = len(proc.cmd)
+        """
+        #print utils.stringToBinary(proc.cmd)
+        processListString.append(proc.cmd)
 
-    print "Number of processess running: ", len(proc_list)
-    print "Length of biggest Command String: ", biggest_size
+
+    #print "Number of processess running: ", len(proc_list)
+    #print "Length of biggest Command String: ", biggest_size
 
     #print utils.stringToBinary("Hello World! How have you been")
 
-    returnValue = utils.chunkMatchesSelf(["011", 1], 3, ["00001","01111","01000"])
-    print returnValue
+    #print processListString
+
+    #print "*******************************"
+    processListString = utils.reduceStringList(processListString)
+
+    #print processListString
+    #print len(processListString)
+
+
+    #print "*******************************"
+    processListString = utils.listStringsToBinary(processListString)
+
+    #print processListString
+
+    #print len(processListString)
+
+    #returnValue = utils.chunkMatchesSelf(['011', 1], 3, ['00001','01111','01000'])
+    #print returnValue
+
+    #returnValue = utils.newChunkMatchesSelf('01100',['00001','01111','01000'])
+    #print returnValue
+
+    selfSet = ['00001','01111','01000']
+
+    detectorChunksList = []
+
+    #detectorChunksList = utils.chunkGenerator(selfSet)
+
+    utils.chunkMatchesSelf("0u1u",["0011","1011"])
