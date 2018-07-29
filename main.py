@@ -4,6 +4,9 @@ from subprocess import Popen, PIPE
 from re import split
 from sys import stdout
 import utils as utils
+from Tkinter import Tk, Label, Button
+from gui import SystemGUI
+
  
 class Proc(object):
     ''' Data structure for a processes . The class properties are

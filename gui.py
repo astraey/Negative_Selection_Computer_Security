@@ -1,14 +1,22 @@
 from Tkinter import Tk, Label, Button
 
-class MyFirstGUI:
+class SystemGUI:
     def __init__(self, master):
         self.master = master
-        master.title("A simple GUI")
 
-        self.label = Label(master, text="Simple GUI")
-        self.label.pack()
+        width = master.winfo_screenwidth()
+        height = master.winfo_screenheight()
+        master.geometry('%sx%s' % (width/2, height/2))
 
-        self.label2 = Label(master, text="Some Text")
+        master.title("Immune-Based Anomaly Detector")
+
+        #self.label = Label(master, text="Simple GUI")
+        #self.label.pack()
+
+        self.label2 = Label(master, text="")
+
+   
+
 
         self.greet_button = Button(master, text="Greet", command=self.greet)
         self.greet_button.pack()
@@ -19,12 +27,18 @@ class MyFirstGUI:
         self.close_button = Button(master, text="Add New Label", command=self.addLabel)
         self.close_button.pack()
 
+
     def greet(self):
         print("Greetings!")
 
     def addLabel(self):
+        self.label2['text'] = "OOOOOOOOI"
         self.label2.pack()
 
-root = Tk()
-my_gui = MyFirstGUI(root)
-root.mainloop()
+    def changeMessage(self, message):
+        self.label2['text'] = message
+        self.label2.pack(side='bottom')
+
+#root = Tk()
+#my_gui = SystemGUI(root)
+#root.mainloop()

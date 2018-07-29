@@ -1,8 +1,17 @@
 
 import random
 import string
+from gui import SystemGUI
+from Tkinter import Tk, Label, Button
 
 maxSelfBinaryStringSize = 138
+
+
+root = Tk()
+my_gui = SystemGUI(root)
+#root.mainloop()
+root.update_idletasks()
+root.update()
 
 
 def stringToBinary(string): 
@@ -162,10 +171,17 @@ def chunkGenerator(S):
             else:
                 #print "Added to detectorChunkList"
                 detectorChunksList.append(randomBinaryString)
-                print "Chunk",len(detectorChunksList),"added to detectorChunkList"
+                stringOutput = "Number of ",str(maxSelfBinaryStringSize),"-Chunk Detectors Generated: ", str(len(detectorChunksList)),
+                stringOutput = ''.join(stringOutput)
+                #print stringOutput
+
+                my_gui.changeMessage(stringOutput)
+                root.update_idletasks()
+                root.update()
+                
 
         #print "Result:", detectorChunksList
-        print "PROCESS FINISHED"
+        #print "PROCESS FINISHED"
 
         return detectorChunksList
 
