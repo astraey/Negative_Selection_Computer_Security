@@ -131,7 +131,8 @@ def chunkGenerator(S, my_gui, root):
 
 
         #We use the length of self to get an idea of the initial random chunks that we want to generate, but this value can  be modified.
-        for i in range(sizeSelf):
+        while not sizeSelf == len(detectorChunksList):
+        #for i in range(sizeSelf):
             #We can't append them directly, we have to check wether it matches Self or not, and also change it to the minimal form patern.
             #We also need to delete repeated members of the list, as in the new form they will most likely be repeated.
 
@@ -197,7 +198,7 @@ def chunkGenerator(S, my_gui, root):
             else:
                 #print "Added to detectorChunkList"
                 detectorChunksList.append(randomBinaryString)
-                stringOutput = "Number of ",str(maxSelfBinaryStringSize),"-Chunk Detectors Generated: ", str(len(detectorChunksList)),
+                stringOutput = "Number of ",str(maxSelfBinaryStringSize),"-Chunk Detectors Generated: ", str(len(detectorChunksList)),"/",str(sizeSelf)
                 stringOutput = ''.join(stringOutput)
                 #print stringOutput
 

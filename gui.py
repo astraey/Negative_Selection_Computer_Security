@@ -12,7 +12,7 @@ class SystemGUI:
 
         master.title("Immune-Based Anomaly Detector")
 
-        self.label = Label(master, text="READY")
+        self.label = Label(master, text="TRAINING STARTED")
         self.label['fg'] = '#2ac155'
         self.label.pack()
 
@@ -29,8 +29,8 @@ class SystemGUI:
         self.label2 = Label(master, text="")
 
    
-        self.start_button = Button(master, text="Start Training", command=self.startTraining)
-        self.start_button.pack()
+        #self.start_button = Button(master, text="Start Training", command=self.startTraining)
+        #self.start_button.pack()
 
 
         #self.close_button = Button(master, text="Close", command=master.quit)
