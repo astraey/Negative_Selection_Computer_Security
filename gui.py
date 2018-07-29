@@ -10,26 +10,24 @@ class SystemGUI:
 
         master.title("Immune-Based Anomaly Detector")
 
-        #self.label = Label(master, text="Simple GUI")
-        #self.label.pack()
+        self.label = Label(master, text="READY")
+        self.label['fg'] = '#2ac155'
+        self.label.pack()
+
+        self.label3 = Label(master, text="READY")
+        self.label3.pack()
+
+        self.storedTraining = False
 
         self.label2 = Label(master, text="")
 
    
+        self.start_button = Button(master, text="Start Training", command=self.startTraining)
+        self.start_button.pack()
 
 
-        self.greet_button = Button(master, text="Greet", command=self.greet)
-        self.greet_button.pack()
-
-        self.close_button = Button(master, text="Close", command=master.quit)
-        self.close_button.pack()
-
-        self.close_button = Button(master, text="Add New Label", command=self.addLabel)
-        self.close_button.pack()
-
-
-    def greet(self):
-        print("Greetings!")
+        #self.close_button = Button(master, text="Close", command=master.quit)
+        #self.close_button.pack()
 
     def addLabel(self):
         self.label2['text'] = "OOOOOOOOI"
@@ -38,6 +36,11 @@ class SystemGUI:
     def changeMessage(self, message):
         self.label2['text'] = message
         self.label2.pack(side='bottom')
+
+    def startTraining(self):
+        self.label['text'] = "TRAINING STARTED"
+        self.label['fg'] = '#bfc12a'
+        self.label.pack()
 
 #root = Tk()
 #my_gui = SystemGUI(root)

@@ -1,8 +1,11 @@
 
 import random
 import string
+from subprocess import Popen, PIPE
 from gui import SystemGUI
 from Tkinter import Tk, Label, Button
+from re import split
+from process import Proc
 
 maxSelfBinaryStringSize = 138
 
@@ -12,6 +15,25 @@ my_gui = SystemGUI(root)
 #root.mainloop()
 root.update_idletasks()
 root.update()
+
+def get_proc_list():
+    ''' Return a list [] of Proc objects representing the active
+    process list list '''
+    proc_list = []
+    sub_proc = Popen(['ps', 'aux'], shell=False, stdout=PIPE)
+    #Discard the first line (ps aux header)
+    sub_proc.stdout.readline()
+    for line in sub_proc.stdout:
+        #The separator for splitting is 'variable number of spaces'
+        proc_info = split(" *", line)
+
+        #We only store the s
+        aux_process = Proc(proc_info)
+        aux_process.cmd = aux_process.cmd.replace("\n","")
+        aux_process.cmd = aux_process.cmd.replace(" ","")
+
+        proc_list.append(aux_process)
+    return proc_list
 
 
 def stringToBinary(string): 

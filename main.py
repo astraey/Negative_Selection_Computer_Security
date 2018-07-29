@@ -7,122 +7,81 @@ import utils as utils
 from Tkinter import Tk, Label, Button
 from gui import SystemGUI
 
- 
-class Proc(object):
-    ''' Data structure for a processes . The class properties are
-    process attributes '''
-    def __init__(self, proc_info):
-        self.user = proc_info[0]
-        self.pid = proc_info[1]
-        self.cpu = proc_info[2]
-        self.mem = proc_info[3]
-        self.vsz = proc_info[4]
-        self.rss = proc_info[5]
-        self.tty = proc_info[6]
-        self.stat = proc_info[7]
-        self.start = proc_info[8]
-        self.time = proc_info[9]
-        self.cmd = proc_info[10]
- 
-    def to_str(self):
-        ''' Returns a string containing minimalistic info
-        about the process : user, pid, and command '''
-        return '%s %s %s' % (self.user, self.pid, self.cmd)
+from process import Proc
 
 
-def get_proc_list():
-    ''' Return a list [] of Proc objects representing the active
-    process list list '''
-    proc_list = []
-    sub_proc = Popen(['ps', 'aux'], shell=False, stdout=PIPE)
-    #Discard the first line (ps aux header)
-    sub_proc.stdout.readline()
-    for line in sub_proc.stdout:
-        #The separator for splitting is 'variable number of spaces'
-        proc_info = split(" *", line)
 
-        #We only store the s
-        aux_process = Proc(proc_info)
-        aux_process.cmd = aux_process.cmd.replace("\n","")
-        aux_process.cmd = aux_process.cmd.replace(" ","")
+proc_list = utils.get_proc_list()
 
-        proc_list.append(aux_process)
-    return proc_list
+#Show the minimal proc list (user, pid, cmd)
 
+"""
+stdout.write('Process list:n')
+for proc in proc_list:
+    stdout.write('t' + proc.to_str() + 'n')
 
-if __name__ == "__main__":
+#Build &amp; print a list of processes that are owned by root
+#(proc.user == 'root')
+root_proc_list = [ x for x in proc_list if x.user == 'root' ]
+stdout.write('Owned by root:n')
+for proc in root_proc_list:
+    stdout.write('t' + proc.to_str() + 'n')
 
-    proc_list = get_proc_list()
+"""
 
-    #Show the minimal proc list (user, pid, cmd)
+biggest_size = 0
 
+processListString = []
+
+for proc in proc_list:
     """
-    stdout.write('Process list:n')
-    for proc in proc_list:
-        stdout.write('t' + proc.to_str() + 'n')
- 
-    #Build &amp; print a list of processes that are owned by root
-    #(proc.user == 'root')
-    root_proc_list = [ x for x in proc_list if x.user == 'root' ]
-    stdout.write('Owned by root:n')
-    for proc in root_proc_list:
-        stdout.write('t' + proc.to_str() + 'n')
-
+    print proc.pid," ", proc.cmd
+    print "Size of String: ", len(proc.cmd)
+    if len(proc.cmd) > biggest_size:
+        biggest_size = len(proc.cmd)
     """
-
-    biggest_size = 0
-
-    processListString = []
-
-    for proc in proc_list:
-        """
-        print proc.pid," ", proc.cmd
-        print "Size of String: ", len(proc.cmd)
-        if len(proc.cmd) > biggest_size:
-            biggest_size = len(proc.cmd)
-        """
-        #print utils.stringToBinary(proc.cmd)
-        processListString.append(proc.cmd)
+    #print utils.stringToBinary(proc.cmd)
+    processListString.append(proc.cmd)
 
 
-    #print "Number of processess running: ", len(proc_list)
-    #print "Length of biggest Command String: ", biggest_size
+#print "Number of processess running: ", len(proc_list)
+#print "Length of biggest Command String: ", biggest_size
 
-    #print utils.stringToBinary("Hello World! How have you been")
+#print utils.stringToBinary("Hello World! How have you been")
 
-    #print processListString
-
-    
-
-    #print processListString
-    #print len(processListString)
+#print processListString
 
 
-    #print "*******************************"
-    processListString = utils.listStringsToBinary(processListString)
 
-    #print "*******************************"
+#print processListString
+#print len(processListString)
 
-    processListString = utils.reduceStringList(processListString)
 
-    #print processListString
+#print "*******************************"
+processListString = utils.listStringsToBinary(processListString)
 
-    processListString = utils.normaliseLengthStrings(processListString)
+#print "*******************************"
 
-    #print len(processListString)
+processListString = utils.reduceStringList(processListString)
 
-    #returnValue = utils.chunkMatchesSelf(['011', 1], 3, ['00001','01111','01000'])
-    #print returnValue
+#print processListString
 
-    #returnValue = utils.newChunkMatchesSelf('01100',['00001','01111','01000'])
-    #print returnValue
+processListString = utils.normaliseLengthStrings(processListString)
 
-    #selfSet = ['00001','01111','01000']
+#print len(processListString)
 
-    selfSet = processListString
+#returnValue = utils.chunkMatchesSelf(['011', 1], 3, ['00001','01111','01000'])
+#print returnValue
 
-    detectorChunksList = []
+#returnValue = utils.newChunkMatchesSelf('01100',['00001','01111','01000'])
+#print returnValue
 
-    detectorChunksList = utils.chunkGenerator(selfSet)
+#selfSet = ['00001','01111','01000']
 
-    #utils.chunkMatchesSelf("0u1u",["0011","1011"])
+selfSet = processListString
+
+detectorChunksList = []
+
+detectorChunksList = utils.chunkGenerator(selfSet)
+
+#utils.chunkMatchesSelf("0u1u",["0011","1011"])
