@@ -89,8 +89,7 @@ if __name__ == "__main__":
 
     #print processListString
 
-    #print "*******************************"
-    processListString = utils.reduceStringList(processListString)
+    
 
     #print processListString
     #print len(processListString)
@@ -99,7 +98,13 @@ if __name__ == "__main__":
     #print "*******************************"
     processListString = utils.listStringsToBinary(processListString)
 
+    #print "*******************************"
+
+    processListString = utils.reduceStringList(processListString)
+
     #print processListString
+
+    processListString = utils.normaliseLengthStrings(processListString)
 
     #print len(processListString)
 
@@ -111,8 +116,10 @@ if __name__ == "__main__":
 
     selfSet = ['00001','01111','01000']
 
+    selfSet = processListString
+
     detectorChunksList = []
 
-    #detectorChunksList = utils.chunkGenerator(selfSet)
+    detectorChunksList = utils.chunkGenerator(selfSet)
 
-    utils.chunkMatchesSelf("0u1u",["0011","1011"])
+    #utils.chunkMatchesSelf("0u1u",["0011","1011"])
