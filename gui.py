@@ -4,6 +4,8 @@ class SystemGUI:
     def __init__(self, master):
         self.master = master
 
+        self.storedTraining = False
+
         width = master.winfo_screenwidth()
         height = master.winfo_screenheight()
         master.geometry('%sx%s' % (width/2, height/2))
@@ -14,10 +16,15 @@ class SystemGUI:
         self.label['fg'] = '#2ac155'
         self.label.pack()
 
-        self.label3 = Label(master, text="READY")
+        self.label3 = Label(master, text="")
+
+        if self.storedTraining:
+            self.label3['text'] = "STATUS: Training Stored"
+        else:
+            self.label3['text'] = "STATUS: Not trained"
+
         self.label3.pack()
 
-        self.storedTraining = False
 
         self.label2 = Label(master, text="")
 
@@ -39,7 +46,7 @@ class SystemGUI:
 
     def startTraining(self):
         self.label['text'] = "TRAINING STARTED"
-        self.label['fg'] = '#bfc12a'
+        self.label['fg'] = '#e0a204'
         self.label.pack()
 
 #root = Tk()

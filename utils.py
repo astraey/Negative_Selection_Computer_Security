@@ -9,12 +9,16 @@ from process import Proc
 
 maxSelfBinaryStringSize = 138
 
-
+"""
 root = Tk()
 my_gui = SystemGUI(root)
 #root.mainloop()
 root.update_idletasks()
 root.update()
+"""
+
+
+
 
 def get_proc_list():
     ''' Return a list [] of Proc objects representing the active
@@ -112,7 +116,7 @@ def chunkMatchesSelf(chunk, size, S):
 
 #This funcion returns a list with all the chunks detectors for the given self. This is where the magic happens
 
-def chunkGenerator(S):
+def chunkGenerator(S, my_gui, root):
 
     if S:
 
@@ -250,5 +254,85 @@ def normaliseLengthStrings(stringList):
 
 
     return returnList
+
+
+def mainScript(my_gui, root):
+
+
+    proc_list = get_proc_list()
+
+    #Show the minimal proc list (user, pid, cmd)
+
+    """
+    stdout.write('Process list:n')
+    for proc in proc_list:
+        stdout.write('t' + proc.to_str() + 'n')
+
+    #Build &amp; print a list of processes that are owned by root
+    #(proc.user == 'root')
+    root_proc_list = [ x for x in proc_list if x.user == 'root' ]
+    stdout.write('Owned by root:n')
+    for proc in root_proc_list:
+        stdout.write('t' + proc.to_str() + 'n')
+
+    """
+
+    biggest_size = 0
+
+    processListString = []
+
+    for proc in proc_list:
+        """
+        print proc.pid," ", proc.cmd
+        print "Size of String: ", len(proc.cmd)
+        if len(proc.cmd) > biggest_size:
+            biggest_size = len(proc.cmd)
+        """
+        #print utils.stringToBinary(proc.cmd)
+        processListString.append(proc.cmd)
+
+
+    #print "Number of processess running: ", len(proc_list)
+    #print "Length of biggest Command String: ", biggest_size
+
+    #print utils.stringToBinary("Hello World! How have you been")
+
+    #print processListString
+
+
+
+    #print processListString
+    #print len(processListString)
+
+
+    #print "*******************************"
+    processListString = listStringsToBinary(processListString)
+
+    #print "*******************************"
+
+    processListString = reduceStringList(processListString)
+
+    #print processListString
+
+    processListString = normaliseLengthStrings(processListString)
+
+    #print len(processListString)
+
+    #returnValue = utils.chunkMatchesSelf(['011', 1], 3, ['00001','01111','01000'])
+    #print returnValue
+
+    #returnValue = utils.newChunkMatchesSelf('01100',['00001','01111','01000'])
+    #print returnValue
+
+    #selfSet = ['00001','01111','01000']
+
+    selfSet = processListString
+
+    detectorChunksList = []
+
+    detectorChunksList = chunkGenerator(selfSet, my_gui,root)
+
+    #utils.chunkMatchesSelf("0u1u",["0011","1011"])
+
 
 
