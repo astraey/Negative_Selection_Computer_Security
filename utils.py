@@ -90,7 +90,7 @@ def chunkGenerator(S):
         sizeSelf = len(S)
         sizeStringsSelf = len(S[0])
 
-        print "Chunk Generator Initiated"
+        #print "Chunk Generator Initiated"
 
         #print "Self:", S
 
@@ -102,7 +102,7 @@ def chunkGenerator(S):
 
             randomBinaryString = generateRandomBinaryString(sizeStringsSelf)
 
-            print "Randomly Generated String: ",randomBinaryString
+            #print "Randomly Generated String: ",randomBinaryString
 
 
             #Here we should check if this matches the list.
@@ -137,18 +137,18 @@ def chunkGenerator(S):
                     elif flippedRandomBinaryString[i] == '1':
                         flippedRandomBinaryString[i] = '0'
                     flippedRandomBinaryString = ''.join(flippedRandomBinaryString)
-                    print "Original String", randomBinaryString
-                    print "Flipped new String: ", flippedRandomBinaryString
+                    #print "Original String", randomBinaryString
+                    #print "Flipped new String: ", flippedRandomBinaryString
 
                     #if not flippedRandomBinaryString in S:
                     if not chunkMatchesSelf(flippedRandomBinaryString,S):
-                        print "Not",randomBinaryString, "nor", flippedRandomBinaryString,"are in S, so we proceed to change the digit for a u"
+                        #print "Not",randomBinaryString, "nor", flippedRandomBinaryString,"are in S, so we proceed to change the digit for a u"
                         #Code to change the targeted digit for a 'u'
                         temp = list(randomBinaryString)
                         temp[i] = 'u'
                         randomBinaryString = ''.join(temp)
-                    else:
-                        print "Either",randomBinaryString, "or", flippedRandomBinaryString,"are in S, so we DO NOT change the digit for a u"
+                    #else:
+                        #print "Either",randomBinaryString, "or", flippedRandomBinaryString,"are in S, so we DO NOT change the digit for a u"
 
 
 
@@ -156,14 +156,16 @@ def chunkGenerator(S):
 
 
             
-            if randomBinaryString in detectorChunksList:
-                print "Already in detectorChunkList!!*********************************"
+            #if randomBinaryString in detectorChunksList:
+            #    print "Already in detectorChunkList!!*********************************"
 
             else:
-                print "Added to detectorChunkList"
-                detectorChunksList.append(randomBinaryString)   
+                #print "Added to detectorChunkList"
+                detectorChunksList.append(randomBinaryString)
+                print "Chunk",len(detectorChunksList),"added to detectorChunkList"
 
-        print "Result:", detectorChunksList
+        #print "Result:", detectorChunksList
+        print "PROCESS FINISHED"
 
         return detectorChunksList
 
@@ -174,9 +176,9 @@ def generateRandomBinaryString(length):
 
 #True if chunk is in S, including u symbols
 def chunkMatchesSelf(chunk, S):
-    print "Lenght Chunk",len(chunk)
-    for string in S:
-        print "Length S",len(string)
+    #print "Lenght Chunk",len(chunk)
+    #for string in S:
+    #    print "Length S",len(string)
     for selfString in S:
         flag = True
         for i in range(len(chunk)):
@@ -187,14 +189,26 @@ def chunkMatchesSelf(chunk, S):
             return True
     return False
 
+
 #We need to make all the strigs size maxSelfBinaryStringSize. We can just add either 0 at the beginning or at the end of the string. We should test both. 
 def normaliseLengthStrings(stringList):
 
     returnList = []
 
     for string in stringList:
-        #print string
-        True
+        #print "Size of String:", len(string)
+        aditionalDigits = maxSelfBinaryStringSize - len(string)
+        #print "Extra letters needed:", aditionalDigits
+
+        tempString = ("0" * aditionalDigits) + string
+
+        #print "Length new string:", len(tempString)
+
+        returnList.append(tempString)
+
+        #print "NEW STRING", tempString
+
+        #print "*********************************************"
 
 
     return returnList

@@ -114,7 +114,7 @@ if __name__ == "__main__":
     #returnValue = utils.newChunkMatchesSelf('01100',['00001','01111','01000'])
     #print returnValue
 
-    selfSet = ['00001','01111','01000']
+    #selfSet = ['00001','01111','01000']
 
     selfSet = processListString
 
