@@ -14,7 +14,7 @@ class SystemGUI:
 
         self.label = Label(master, text="TRAINING STARTED")
         self.label['fg'] = '#2ac155'
-        self.label.pack()
+        #self.label.pack()
 
         self.label3 = Label(master, text="")
 
@@ -48,6 +48,10 @@ class SystemGUI:
         self.label['text'] = "TRAINING STARTED"
         self.label['fg'] = '#e0a204'
         self.label.pack()
+
+    def changeStatusMessage(self, message):
+        self.label3['text'] = message
+        self.label3.pack()
 
 #root = Tk()
 #my_gui = SystemGUI(root)

@@ -6,6 +6,9 @@ from gui import SystemGUI
 from Tkinter import Tk, Label, Button
 from re import split
 from process import Proc
+import os.path
+
+import pickle
 
 maxSelfBinaryStringSize = 138
 
@@ -331,9 +334,42 @@ def mainScript(my_gui, root):
 
     detectorChunksList = []
 
-    detectorChunksList = chunkGenerator(selfSet, my_gui,root)
+
+    """Code to store list in file python"""
+
+
+
+
+
+    if os.path.exists("chunk_list.txt"):
+        with open("chunk_list.txt", "rb") as fp:   # Reading list from chunk_list.txt and storing it in variable b
+            detectorChunksList = pickle.load(fp)
+        my_gui.changeStatusMessage("STATUS: Loaded chunk_list.txt Detector Chunk List")
+        root.update_idletasks()
+        root.update()
+
+    else:
+        detectorChunksList = chunkGenerator(selfSet, my_gui,root)
+
+        with open("chunk_list.txt", "wb") as fp:   #Storing list in chunk_list.txt
+            pickle.dump(detectorChunksList, fp)
+
+    #print detectorChunksList
+    
+    #At this point, we have store the ChunkList in detectorChunksList
 
     #utils.chunkMatchesSelf("0u1u",["0011","1011"])
 
+    #Once these are generated, we want to: 
 
+    #Make sure that the chunks are succesfully stored
 
+    #Scan the computer processess again
+
+    #Compare the new processes with the chunks
+
+    #Those who match might be a thread.
+
+    #Don't forget the file thing, that makes a lot of sense
+
+    root.mainloop()
