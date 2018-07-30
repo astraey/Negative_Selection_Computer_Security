@@ -28,6 +28,8 @@ class SystemGUI:
 
         self.label2 = Label(master, text="")
 
+        self.label4 = Label(master, text="")
+
    
         #self.start_button = Button(master, text="Start Training", command=self.startTraining)
         #self.start_button.pack()
@@ -52,6 +54,10 @@ class SystemGUI:
     def changeStatusMessage(self, message):
         self.label3['text'] = message
         self.label3.pack()
+
+    def changeErrorMessage(self, message):
+        self.label4['text'] = message
+        self.label4.pack(side='left')
 
 #root = Tk()
 #my_gui = SystemGUI(root)
