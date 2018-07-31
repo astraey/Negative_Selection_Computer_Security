@@ -372,6 +372,10 @@ def mainScript(my_gui, root):
 
     #Don't forget the file thing, that makes a lot of sense
 
-    my_gui.changeErrorMessage("      No Errors Detected")
+    
+    my_gui.changeErrorMessage("      No Anomalies Detected")
+    
+
+    
 
     root.mainloop()
