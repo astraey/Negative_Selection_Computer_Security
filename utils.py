@@ -259,29 +259,114 @@ def normaliseLengthStrings(stringList):
 
     return returnList
 
+#Return list of all the processess considered anomalies.
+def anomalyDetection(selfList,chunkList):
+
+    anomalyList = []
+
+    anomaliesDetected = False
+
+    print "List of all the processes that actually match"
+
+    #print chunkMatchesSelf("0u1u",["0011","1011"])
+
 
 def mainScript(my_gui, root):
 
 
+    detectorChunksList = []
+
+    if os.path.exists("chunk_list.txt"):
+        with open("chunk_list.txt", "rb") as fp:   # Reading list from chunk_list.txt and storing it in variable b
+            detectorChunksList = pickle.load(fp)
+
+        my_gui.changeStatusMessage("STATUS: Loaded chunk_list.txt Detector Chunk List")
+        root.update_idletasks()
+        root.update()
+
+    else:
+
+
+        proc_list = get_proc_list()
+
+        #Show the minimal proc list (user, pid, cmd)
+
+        """
+        stdout.write('Process list:n')
+        for proc in proc_list:
+            stdout.write('t' + proc.to_str() + 'n')
+
+        #Build &amp; print a list of processes that are owned by root
+        #(proc.user == 'root')
+        root_proc_list = [ x for x in proc_list if x.user == 'root' ]
+        stdout.write('Owned by root:n')
+        for proc in root_proc_list:
+            stdout.write('t' + proc.to_str() + 'n')
+
+        """
+
+        biggest_size = 0
+
+        processListString = []
+
+        for proc in proc_list:
+            """
+            print proc.pid," ", proc.cmd
+            print "Size of String: ", len(proc.cmd)
+            if len(proc.cmd) > biggest_size:
+                biggest_size = len(proc.cmd)
+            """
+            #print utils.stringToBinary(proc.cmd)
+            processListString.append(proc.cmd)
+
+
+        #print "Number of processess running: ", len(proc_list)
+        #print "Length of biggest Command String: ", biggest_size
+
+        #print utils.stringToBinary("Hello World! How have you been")
+
+        #print processListString
+
+
+
+        #print processListString
+        #print len(processListString)
+
+
+        #print "*******************************"
+        processListString = listStringsToBinary(processListString)
+
+        #print "*******************************"
+
+        processListString = reduceStringList(processListString)
+
+        #print processListString
+
+        processListString = normaliseLengthStrings(processListString)
+
+        #print len(processListString)
+
+        #returnValue = utils.chunkMatchesSelf(['011', 1], 3, ['00001','01111','01000'])
+        #print returnValue
+
+        #returnValue = utils.newChunkMatchesSelf('01100',['00001','01111','01000'])
+        #print returnValue
+
+        #selfSet = ['00001','01111','01000']
+
+        selfSet = processListString
+
+        detectorChunksList = chunkGenerator(selfSet, my_gui,root)
+
+        with open("chunk_list.txt", "wb") as fp:   #Storing list in chunk_list.txt
+            pickle.dump(detectorChunksList, fp)
+
+
+    my_gui.changeErrorMessage("      Looking for anomalies", "orange")
+
+    #At this point, we have stored the ChunkList in detectorChunksList
+
     proc_list = get_proc_list()
-
-    #Show the minimal proc list (user, pid, cmd)
-
-    """
-    stdout.write('Process list:n')
-    for proc in proc_list:
-        stdout.write('t' + proc.to_str() + 'n')
-
-    #Build &amp; print a list of processes that are owned by root
-    #(proc.user == 'root')
-    root_proc_list = [ x for x in proc_list if x.user == 'root' ]
-    stdout.write('Owned by root:n')
-    for proc in root_proc_list:
-        stdout.write('t' + proc.to_str() + 'n')
-
-    """
-
-    biggest_size = 0
 
     processListString = []
 
@@ -295,76 +380,18 @@ def mainScript(my_gui, root):
         #print utils.stringToBinary(proc.cmd)
         processListString.append(proc.cmd)
 
-
-    #print "Number of processess running: ", len(proc_list)
-    #print "Length of biggest Command String: ", biggest_size
-
-    #print utils.stringToBinary("Hello World! How have you been")
-
     #print processListString
 
-
-
-    #print processListString
-    #print len(processListString)
-
-
-    #print "*******************************"
     processListString = listStringsToBinary(processListString)
-
-    #print "*******************************"
 
     processListString = reduceStringList(processListString)
 
-    #print processListString
-
     processListString = normaliseLengthStrings(processListString)
 
-    #print len(processListString)
-
-    #returnValue = utils.chunkMatchesSelf(['011', 1], 3, ['00001','01111','01000'])
-    #print returnValue
-
-    #returnValue = utils.newChunkMatchesSelf('01100',['00001','01111','01000'])
-    #print returnValue
-
-    #selfSet = ['00001','01111','01000']
-
-    selfSet = processListString
-
-    detectorChunksList = []
-
-
-    """Code to store list in file python"""
-
-
-
-
-
-    if os.path.exists("chunk_list.txt"):
-        with open("chunk_list.txt", "rb") as fp:   # Reading list from chunk_list.txt and storing it in variable b
-            detectorChunksList = pickle.load(fp)
-        my_gui.changeStatusMessage("STATUS: Loaded chunk_list.txt Detector Chunk List")
-        root.update_idletasks()
-        root.update()
-
-    else:
-        detectorChunksList = chunkGenerator(selfSet, my_gui,root)
-
-        with open("chunk_list.txt", "wb") as fp:   #Storing list in chunk_list.txt
-            pickle.dump(detectorChunksList, fp)
-
-    #print detectorChunksList
+    anomalyDetection(processListString, detectorChunksList)
     
-    #At this point, we have store the ChunkList in detectorChunksList
-
-    #utils.chunkMatchesSelf("0u1u",["0011","1011"])
 
     #Once these are generated, we want to: 
-
-    #Make sure that the chunks are succesfully stored
-
-    #Scan the computer processess again
 
     #Compare the new processes with the chunks
 
@@ -373,9 +400,7 @@ def mainScript(my_gui, root):
     #Don't forget the file thing, that makes a lot of sense
 
     
-    my_gui.changeErrorMessage("      No Anomalies Detected")
-    
-
+    #my_gui.changeErrorMessage("      No Anomalies Detected", "green")
     
 
     root.mainloop()

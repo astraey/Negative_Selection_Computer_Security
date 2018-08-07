@@ -55,11 +55,10 @@ class SystemGUI:
         self.label3['text'] = message
         self.label3.pack()
 
-    def changeErrorMessage(self, message):
+    def changeErrorMessage(self, message, color):
         self.label4['text'] = message
-        self.label4['fg'] = 'green'
+        self.label4['fg'] = color
         self.label4.pack(side='left')
-
 
 #root = Tk()
 #my_gui = SystemGUI(root)
