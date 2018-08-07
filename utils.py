@@ -42,7 +42,6 @@ def get_proc_list():
         proc_list.append(aux_process)
     return proc_list
 
-
 def stringToBinary(string): 
     
     return ''.join(format(ord(x), 'b') for x in string)
@@ -69,56 +68,7 @@ def reduceStringList(listStrings):
 
 
 
-
-def chunkMatchesSelf(chunk, size, S):
-
-    #S in this case needs to be a list of binary strings. The idea is that, for long commands, we cut the string and keep the part 
-    #of interest starting from the end. The value needs to be a preset value.
-
-    #print "***WE START COMPARISON***"
-
-    #We also have to take into account the integer that comes with the chunk and the size of the chunk, that are not the same value
-
-    #Keep in mind that the Integrer has to be >= 1
-
-    #Size is the value of n for the n-chunk
-
-    #print "Chunk String: ", chunk[0]
-    #print "Chunk Integer: ", chunk[1]
-
-    startIndex = chunk[1] -1
-    endIndex = startIndex + size
-
-    #test = "0123456789"
-
-    #print(test[len(test)-40:len(test)])
-
-
-
-    for selfString in S:
-        selfTarget = selfString[startIndex:endIndex]
-
-        if selfTarget == chunk[0]:
-            #print chunk[0]," IS PART OF SELF ", selfTarget
-            return True
-
-        #else:
-            #print chunk[0]," is not part of the first checked self ", selfTarget
-    
-    return False
-
-    
-
-
-
-    #print test[startIndex:endIndex]
-
-    #print startIndex, endIndex
-
-
-
 #This funcion returns a list with all the chunks detectors for the given self. This is where the magic happens
-
 def chunkGenerator(S, my_gui, root):
 
     if S:
@@ -219,22 +169,101 @@ def generateRandomBinaryString(length):
 
     return ''.join(random.choice("0" + "1") for _ in range(length))
 
+"""
+
+def chunkMatchesSelf(chunk, size, S):
+
+    print "is this even being called?"
+
+    #S in this case needs to be a list of binary strings. The idea is that, for long commands, we cut the string and keep the part 
+    #of interest starting from the end. The value needs to be a preset value.
+
+    #print "***WE START COMPARISON***"
+
+    #We also have to take into account the integer that comes with the chunk and the size of the chunk, that are not the same value
+
+    #Keep in mind that the Integrer has to be >= 1
+
+    #Size is the value of n for the n-chunk
+
+    #print "Chunk String: ", chunk[0]
+    #print "Chunk Integer: ", chunk[1]
+
+    startIndex = chunk[1] -1
+    endIndex = startIndex + size
+
+    #test = "0123456789"
+
+    #print(test[len(test)-40:len(test)])
+
+
+
+    for selfString in S:
+        selfTarget = selfString[startIndex:endIndex]
+
+        if selfTarget == chunk[0]:
+            #print chunk[0]," IS PART OF SELF ", selfTarget
+            return True
+
+        #else:
+            #print chunk[0]," is not part of the first checked self ", selfTarget
+    
+    return False
+
+    
+
+
+
+    #print test[startIndex:endIndex]
+
+    #print startIndex, endIndex
+
+"""
 
 #True if chunk is in S, including u symbols
-def chunkMatchesSelf(chunk, S):
+
+def chunkMatchesSelf(chunk, S, matchingProcessesList):
     #print "Lenght Chunk",len(chunk)
     #for string in S:
     #    print "Length S",len(string)
     for selfString in S:
+        returnValue = False
         flag = True
         for i in range(len(chunk)):
             if not chunk[i] == selfString[i] and not chunk[i] == 'u':
                 flag = False
         if flag == True:
             #print "ONE OF THE STRINGS IN SELF MATCHES THE CHUNK"
+            #We add the process that has been detected by the Chunks Detectors to the list of anomalies
+            matchingProcessesList.append(selfString)
             return True
     return False
 
+
+"""
+#Another option for this: 
+
+def chunkMatchesSelf(chunk, S, matchingProcessesList):
+    #print "Lenght Chunk",len(chunk)
+    #for string in S:
+    #    print "Length S",len(string)
+    for selfString in S:
+        returnValue = False
+        flag = True
+        for i in range(len(chunk)):
+            if not chunk[i] == selfString[i] and not chunk[i] == 'u':
+                flag = False
+        if flag == True:
+            #print "ONE OF THE STRINGS IN SELF MATCHES THE CHUNK"
+            #We add the process that has been detected by the Chunks Detectors to the list of anomalies
+            matchingProcessesList.append(selfString)
+            #return True
+            returnValue = True
+    #return False
+
+    return returnValue
+
+"""
 
 #We need to make all the strigs size maxSelfBinaryStringSize. We can just add either 0 at the beginning or at the end of the string. We should test both. 
 def normaliseLengthStrings(stringList):
@@ -259,14 +288,21 @@ def normaliseLengthStrings(stringList):
 
     return returnList
 
-#Return list of all the processess considered anomalies.
-def anomalyDetection(selfList,chunkList):
+#Return list of all the processes considered anomalies.
+def anomalyDetection(processesList,chunkList):
 
     anomalyList = []
 
     anomaliesDetected = False
 
-    print "List of all the processes that actually match"
+
+    for chunk in chunkList:
+        if chunkMatchesSelf(chunk, processesList, anomalyList):
+            print "Anomaly No",str(len(anomalyList)),"Detected"
+
+    #print anomalyList
+
+    #print "List of all the processes that actually match"
 
     #print chunkMatchesSelf("0u1u",["0011","1011"])
 
@@ -401,6 +437,12 @@ def mainScript(my_gui, root):
 
     
     #my_gui.changeErrorMessage("      No Anomalies Detected", "green")
-    
+
+
+    #We need to set it so runs every 10 seconds for example, while the program is still open. 
+
+    #We have to make it print some feedback on the GUI.
+
+    #We should also print out information on the GUI, like the number of annomalies and the name of the process, maybe cleaned? (Just the last part of the proccess)    
 
     root.mainloop()
