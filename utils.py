@@ -425,7 +425,7 @@ def mainScript(my_gui, root):
             pickle.dump(detectorChunksList, fp)
 
 
-    my_gui.changeErrorMessage("      Looking for anomalies", "orange")
+    my_gui.changeErrorMessage("Looking for anomalies", "orange")
 
     #At this point, we have stored the ChunkList in detectorChunksList
 
@@ -460,8 +460,19 @@ def mainScript(my_gui, root):
 
     anomaliesStringsList = []
 
+    output = ""
+
     for index in anomaliesListIndexes:
         anomaliesStringsList.append(storedProcesses[index])
+        output += storedProcesses[index] + "\n"
+
+    message = "Anomalies found: " + output
+
+    my_gui.changeErrorMessage(message, "red")
+
+    print len(anomaliesStringsList)
+
+    #print anomaliesStringsList
 
     #Once these are generated, we want to: 
 

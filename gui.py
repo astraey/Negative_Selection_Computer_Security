@@ -58,7 +58,7 @@ class SystemGUI:
     def changeErrorMessage(self, message, color):
         self.label4['text'] = message
         self.label4['fg'] = color
-        self.label4.pack(side='left')
+        self.label4.pack()
 
 #root = Tk()
 #my_gui = SystemGUI(root)
