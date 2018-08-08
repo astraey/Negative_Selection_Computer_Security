@@ -1,7 +1,7 @@
- 
+
+# Data structure for a processes
+# The class properties are process attributes
 class Proc(object):
-    ''' Data structure for a processes . The class properties are
-    process attributes '''
     def __init__(self, proc_info):
         self.user = proc_info[0]
         self.pid = proc_info[1]
@@ -15,9 +15,8 @@ class Proc(object):
         self.time = proc_info[9]
         self.cmd = proc_info[10]
  
+    # Returns a string containing minimal info about the process : user, pid, and command
     def to_str(self):
-        ''' Returns a string containing minimalistic info
-        about the process : user, pid, and command '''
         return '%s %s %s' % (self.user, self.pid, self.cmd)
 
 
