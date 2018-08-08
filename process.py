@@ -18,5 +18,3 @@ class Proc(object):
     # Returns a string containing minimal info about the process : user, pid, and command
     def to_str(self):
         return '%s %s %s' % (self.user, self.pid, self.cmd)
-
-
