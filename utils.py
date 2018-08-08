@@ -8,6 +8,8 @@ from re import split
 from process import Proc
 import os.path
 
+import binascii
+
 import pickle
 
 maxSelfBinaryStringSize = 138
@@ -221,8 +223,32 @@ def chunkMatchesSelf(chunk, size, S):
 """
 
 #True if chunk is in S, including u symbols
+def chunkMatchesSelfSaver(chunk, S, matchingProcessesListIndexes):
+    #print "Lenght Chunk",len(chunk)
+    #for string in S:
+    #    print "Length S",len(string)
 
-def chunkMatchesSelf(chunk, S, matchingProcessesList):
+    i = 0
+
+    for selfString in S:
+        returnValue = False
+        flag = True
+        for i in range(len(chunk)):
+            if not chunk[i] == selfString[i] and not chunk[i] == 'u':
+                flag = False
+        if flag == True:
+            #print "ONE OF THE STRINGS IN SELF MATCHES THE CHUNK"
+            #We add the process that has been detected by the Chunks Detectors to the list of anomalies
+            if not i in matchingProcessesListIndexes:
+                matchingProcessesListIndexes.append(i)
+            return True
+        
+        i += 1
+    return False
+
+
+#True if chunk is in S, including u symbols
+def chunkMatchesSelf(chunk, S):
     #print "Lenght Chunk",len(chunk)
     #for string in S:
     #    print "Length S",len(string)
@@ -234,8 +260,6 @@ def chunkMatchesSelf(chunk, S, matchingProcessesList):
                 flag = False
         if flag == True:
             #print "ONE OF THE STRINGS IN SELF MATCHES THE CHUNK"
-            #We add the process that has been detected by the Chunks Detectors to the list of anomalies
-            matchingProcessesList.append(selfString)
             return True
     return False
 
@@ -297,14 +321,17 @@ def anomalyDetection(processesList,chunkList):
 
 
     for chunk in chunkList:
-        if chunkMatchesSelf(chunk, processesList, anomalyList):
-            print "Anomaly No",str(len(anomalyList)),"Detected"
+        chunkMatchesSelfSaver(chunk, processesList, anomalyList)
+        #if chunkMatchesSelfSaver(chunk, processesList, anomalyList):
+            #print "Anomaly No",str(len(anomalyList)),"Detected"
 
     #print anomalyList
 
     #print "List of all the processes that actually match"
 
     #print chunkMatchesSelf("0u1u",["0011","1011"])
+
+    return anomalyList
 
 
 def mainScript(my_gui, root):
@@ -406,6 +433,10 @@ def mainScript(my_gui, root):
 
     processListString = []
 
+    storedProcesses = []
+
+    anomaliesList = []
+
     for proc in proc_list:
         """
         print proc.pid," ", proc.cmd
@@ -415,6 +446,7 @@ def mainScript(my_gui, root):
         """
         #print utils.stringToBinary(proc.cmd)
         processListString.append(proc.cmd)
+        storedProcesses.append(proc.cmd)
 
     #print processListString
 
@@ -424,8 +456,12 @@ def mainScript(my_gui, root):
 
     processListString = normaliseLengthStrings(processListString)
 
-    anomalyDetection(processListString, detectorChunksList)
-    
+    anomaliesListIndexes = anomalyDetection(processListString, detectorChunksList)
+
+    anomaliesStringsList = []
+
+    for index in anomaliesListIndexes:
+        anomaliesStringsList.append(storedProcesses[index])
 
     #Once these are generated, we want to: 
 
