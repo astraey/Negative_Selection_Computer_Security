@@ -57,29 +57,29 @@ def reduceStringList(listStrings):
 
 
 
-# Returns a list with all the chunks detectors for the given Self.
-def chunkGenerator(S, my_gui, root):
+# Returns a list with all the contiguouss detectors for the given Self.
+def contiguousGenerator(S, my_gui, root):
 
     if S:
 
-        detectorChunksList = []
+        detectorcontiguousList = []
 
         sizeSelf = len(S)
         sizeStringsSelf = len(S[0])
 
 
-        # We use the length of self to get an idea of the initial random chunks that we want to generate. This value can  be modified.
+        # We use the length of self to get an idea of the initial random contiguouss that we want to generate. This value can  be modified.
         # We can't append them directly, we have to check wether it matches Self or not, and also change it to the minimal form patern.
         # We also need to delete repeated members of the list, as in the new form they will most likely be repeated.
-        while not sizeSelf == len(detectorChunksList):
+        while not sizeSelf == len(detectorcontiguousList):
 
             randomBinaryString = generateRandomBinaryString(sizeStringsSelf)
 
             for i in reversed(range(len(randomBinaryString))):
 
                 # If it doesn't match self, we change its last digit and check if it is in self. If none of them are, we substitute the digit for a 'u'
-                # The goal is to transform the chunk into the minimal form.
-                if not chunkMatchesSelf(randomBinaryString,S):
+                # The goal is to transform the contiguous into the minimal form.
+                if not contiguousMatchesSelf(randomBinaryString,S):
                     flippedRandomBinaryString = list(randomBinaryString)
                     if flippedRandomBinaryString[i] == '0':
                         flippedRandomBinaryString[i] = '1'
@@ -87,7 +87,7 @@ def chunkGenerator(S, my_gui, root):
                         flippedRandomBinaryString[i] = '0'
                     flippedRandomBinaryString = ''.join(flippedRandomBinaryString)
 
-                    if not chunkMatchesSelf(flippedRandomBinaryString,S):
+                    if not contiguousMatchesSelf(flippedRandomBinaryString,S):
 
                         # We change the targeted digit for a 'u'
                         temp = list(randomBinaryString)
@@ -96,9 +96,9 @@ def chunkGenerator(S, my_gui, root):
 
             else:
 
-                # We add it to the detector chunk list
-                detectorChunksList.append(randomBinaryString)
-                stringOutput = "Number of ",str(maxSelfBinaryStringSize),"-Chunk Detectors Generated: ", str(len(detectorChunksList)),"/",str(sizeSelf)
+                # We add it to the detector contiguous list
+                detectorcontiguousList.append(randomBinaryString)
+                stringOutput = "Number of ",str(maxSelfBinaryStringSize),"-contiguous Detectors Generated: ", str(len(detectorcontiguousList)),"/",str(sizeSelf)
                 stringOutput = ''.join(stringOutput)
 
                 # We update the GUI
@@ -106,7 +106,7 @@ def chunkGenerator(S, my_gui, root):
                 root.update_idletasks()
                 root.update()
 
-        return detectorChunksList
+        return detectorcontiguousList
 
 # Returns a randomly generated binary string
 def generateRandomBinaryString(length):
@@ -116,14 +116,14 @@ def generateRandomBinaryString(length):
 
 # Saves the indexes of the processes that match in the list passed as a parameter: matchingProcessesListIndexes
 # Takes into account 'u' symbols
-def chunkMatchesSelfSaver(chunk, S, matchingProcessesListIndexes):
+def contiguousMatchesSelfSaver(contiguous, S, matchingProcessesListIndexes):
 
     j = 0
 
     for selfString in S:
         flag = True
-        for i in range(len(chunk)):
-            if not chunk[i] == selfString[i] and not chunk[i] == 'u':
+        for i in range(len(contiguous)):
+            if not contiguous[i] == selfString[i] and not contiguous[i] == 'u':
                 flag = False
 
         if flag == True:
@@ -133,13 +133,13 @@ def chunkMatchesSelfSaver(chunk, S, matchingProcessesListIndexes):
         j += 1
 
 
-# Returns True if chunk is in S, including u symbols
-def chunkMatchesSelf(chunk, S):
+# Returns True if contiguous is in S, including u symbols
+def contiguousMatchesSelf(contiguous, S):
     for selfString in S:
         returnValue = False
         flag = True
-        for i in range(len(chunk)):
-            if not chunk[i] == selfString[i] and not chunk[i] == 'u':
+        for i in range(len(contiguous)):
+            if not contiguous[i] == selfString[i] and not contiguous[i] == 'u':
                 flag = False
         if flag == True:
             return True
@@ -159,13 +159,13 @@ def normaliseLengthStrings(stringList):
     return returnList
 
 # Return list of all the processes considered anomalies.
-def anomalyDetection(processesList,chunkList):
+def anomalyDetection(processesList,contiguousList):
 
     anomalyList = []
     anomaliesDetected = False
 
-    for chunk in chunkList:
-        chunkMatchesSelfSaver(chunk, processesList, anomalyList)
+    for contiguous in contiguousList:
+        contiguousMatchesSelfSaver(contiguous, processesList, anomalyList)
 
     return anomalyList
 
@@ -173,18 +173,18 @@ def anomalyDetection(processesList,chunkList):
 # Main Script, executes all the backend processes for training and runing the system.
 def mainScript(my_gui, root):
 
-    detectorChunksList = []
+    detectorcontiguousList = []
 
-    # If file exists, reading chunk detector list from file chunk_list.txt and storing it in variable detectorChunksList
-    if os.path.exists("chunk_list.txt"):
-        with open("chunk_list.txt", "rb") as fp:   
-            detectorChunksList = pickle.load(fp)
+    # If file exists, reading contiguous detector list from file contiguous_list.txt and storing it in variable detectorcontiguousList
+    if os.path.exists("contiguous_list.txt"):
+        with open("contiguous_list.txt", "rb") as fp:   
+            detectorcontiguousList = pickle.load(fp)
 
-        my_gui.changeStatusMessage("STATUS: Loaded chunk_list.txt Detector Chunk List")
+        my_gui.changeStatusMessage("STATUS: Loaded contiguous_list.txt Detector contiguous List")
         root.update_idletasks()
         root.update()
 
-    # If file does not exist, it generates a chunk detector list and stores in file chunk_list.txt and in variable detectorChunksList
+    # If file does not exist, it generates a contiguous detector list and stores in file contiguous_list.txt and in variable detectorcontiguousList
     else:
 
         proc_list = get_proc_list()
@@ -205,14 +205,14 @@ def mainScript(my_gui, root):
 
         selfSet = processListString
 
-        detectorChunksList = chunkGenerator(selfSet, my_gui,root)
+        detectorcontiguousList = contiguousGenerator(selfSet, my_gui,root)
 
-        # Stores generated chunk detector list in file chunk_list.txt
-        with open("chunk_list.txt", "wb") as fp:
-            pickle.dump(detectorChunksList, fp)
+        # Stores generated contiguous detector list in file contiguous_list.txt
+        with open("contiguous_list.txt", "wb") as fp:
+            pickle.dump(detectorcontiguousList, fp)
 
 
-    # At this point, we have a set of chunk detectors and we will proceed with the anomaly detection.
+    # At this point, we have a set of contiguous detectors and we will proceed with the anomaly detection.
 
     processListString = []
 
@@ -237,7 +237,7 @@ def mainScript(my_gui, root):
 
     processListString = normaliseLengthStrings(processListString)
 
-    anomaliesListIndexes = anomalyDetection(processListString, detectorChunksList)
+    anomaliesListIndexes = anomalyDetection(processListString, detectorcontiguousList)
     
     output = ""
 

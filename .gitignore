@@ -1,4 +1,4 @@
 .DS_Store
 .vscode
 *.pyc
-chunk_list.txt
+contiguous_list.txt
