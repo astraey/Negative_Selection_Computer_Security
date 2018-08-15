@@ -249,12 +249,5 @@ def mainScript(my_gui, root):
 
     my_gui.changeErrorMessage(message, "red")
 
-    # Next steps
-
-    # We need to set it so runs every 10 seconds for example, while the program is still open. 
-
-    # We need to show on screen when the scan has run? Potentially. 
-
-    # Maybe simplify the name of the shown processes(Just the last part of the proccess, the actual name of the script.  
-
+    #Keep the graphical user interface open
     root.mainloop()
