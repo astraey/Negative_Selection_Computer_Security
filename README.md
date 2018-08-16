@@ -4,4 +4,4 @@
 
 </p>In this project we are focusing on building a security system based on biological immune systems and applying negative selection.</p>
 
-[Link to Full Paper](paper.pdf)
+[Link to Full Paper](documentation/paper.pdf)
